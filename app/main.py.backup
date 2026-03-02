@@ -1,0 +1,59 @@
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from app.routers import deals, i18n
+import os
+
+app = FastAPI(
+    title="Yondem",
+    description="Agent Deal Platform - Multilingual",
+    version="0.2.0",
+    docs_url=None,
+    redoc_url=None
+)
+
+# Router registrieren
+app.include_router(deals.router)
+app.include_router(i18n.router)
+
+# Static files
+os.makedirs("static/avatars", exist_ok=True)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/")
+def root():
+    return {
+        "message": "Yondem MCP Server",
+        "version": "0.2.0",
+        "features": ["deals", "i18n", "multilingual"],
+        "languages": ["/i18n/languages"]
+    }
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy", "database": "connected"}
+
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html():
+    return HTMLResponse(content="""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Yondem API</title>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="swagger-ui"></div>
+        <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+        <script>
+            SwaggerUIBundle({
+                url: '/openapi.json',
+                dom_id: '#swagger-ui',
+                presets: [SwaggerUIBundle.presets.apis],
+                layout: 'BaseLayout'
+            });
+        </script>
+    </body>
+    </html>
+    """)

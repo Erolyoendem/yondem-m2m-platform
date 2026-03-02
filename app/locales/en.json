@@ -1,0 +1,36 @@
+{
+  "welcome": "Welcome to Yondem Affiliate Platform",
+  "health": {
+    "status_ok": "Server is running smoothly"
+  },
+  "errors": {
+    "deal_not_found": "Deal {deal_id} not found",
+    "merchant_not_found": "Merchant not found",
+    "affiliate_not_found": "Affiliate not found",
+    "validation_error": "Validation error",
+    "unauthorized": "Unauthorized",
+    "server_error": "Server error"
+  },
+  "success": {
+    "deal_created": "Deal created successfully",
+    "deal_updated": "Deal updated",
+    "deal_deleted": "Deal deleted",
+    "merchant_created": "Merchant created",
+    "affiliate_registered": "Affiliate registered",
+    "tracking_success": "Tracking successful"
+  },
+  "fields": {
+    "title": "Title",
+    "description": "Description",
+    "terms": "Terms",
+    "category": "Category",
+    "discount": "Discount",
+    "valid_until": "Valid until"
+  },
+  "products_found": "{count} products found",
+  "product_not_found": "Product not found",
+  "product_details_loaded": "Product details loaded",
+  "price_comparison_ready": "Price comparison ready",
+  "deals_loaded": "{count} deals loaded",
+  "cashback_info_loaded": "Cashback information loaded"
+}
