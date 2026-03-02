@@ -1,60 +1,93 @@
-from fastapi import APIRouter, Depends, HTTPException
-from typing import List
-import psycopg2
-from app.database.connection import get_db_connection
-from app.dependencies import get_language, get_translation_func
-from app.schemas.deals import AgentDeal, DealCreate
+from fastapi import APIRouter, Depends, HTTPException, Request
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from pydantic import BaseModel
+from typing import Optional
+import uuid
 
-router = APIRouter(prefix="/deals", tags=["deals"])
+from app.database.session import get_db
+from app.models.deal import Deal
+from app.core.rate_limiter import limiter
 
-@router.get("/", response_model=List[AgentDeal])
-def list_deals(lang: str = Depends(get_language)):
-    t = get_translation_func(lang)
-    conn = get_db_connection()
-    try:
-        with conn.cursor() as cur:
-            cur.execute("SELECT * FROM agent_deals ORDER BY created_at DESC")
-            deals = cur.fetchall()
-            return deals
-    except psycopg2.Error:
-        raise HTTPException(status_code=500, detail=t("errors.server_error"))
-    finally:
-        conn.close()
+router = APIRouter(prefix="/deals", tags=["Deals"])
 
 
-@router.get("/{deal_id}", response_model=AgentDeal)
-def get_deal(deal_id: int, lang: str = Depends(get_language)):
-    t = get_translation_func(lang)
-    conn = get_db_connection()
-    try:
-        with conn.cursor() as cur:
-            cur.execute("SELECT * FROM agent_deals WHERE id = %s", (deal_id,))
-            deal = cur.fetchone()
-            if not deal:
-                raise HTTPException(status_code=404, detail=t("errors.deal_not_found", deal_id=deal_id))
-            return deal
-    except psycopg2.Error:
-        raise HTTPException(status_code=500, detail=t("errors.server_error"))
-    finally:
-        conn.close()
+class DealCreate(BaseModel):
+    title: str
+    discount_value: Optional[float] = None
+    discount_type: Optional[str] = None
+    code: Optional[str] = None
+    shop_id: int
+    product_id: Optional[int] = None
 
 
-@router.post("/", response_model=AgentDeal)
-def create_deal(deal: DealCreate, lang: str = Depends(get_language)):
-    t = get_translation_func(lang)
-    conn = get_db_connection()
-    try:
-        with conn.cursor() as cur:
-            cur.execute("""
-                INSERT INTO agent_deals (shop_program_id, publisher_agent_id, commission_rate)
-                VALUES (%s, %s, %s)
-                RETURNING *
-            """, (str(deal.shop_program_id), str(deal.publisher_agent_id), deal.commission_rate))
-            new_deal = cur.fetchone()
-            conn.commit()
-            return new_deal
-    except psycopg2.Error as e:
-        conn.rollback()
-        raise HTTPException(status_code=400, detail=str(e))
-    finally:
-        conn.close()
+@router.get("/")
+@limiter.limit("30/minute")
+async def list_deals(
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+):
+    result = await db.execute(
+        select(Deal).where(Deal.is_active == True).order_by(Deal.created_at.desc())
+    )
+    deals = result.scalars().all()
+    return {
+        "status": "success",
+        "count": len(deals),
+        "deals": [
+            {
+                "id": d.id,
+                "title": d.title,
+                "discount_value": d.discount_value,
+                "discount_type": d.discount_type,
+                "code": d.code,
+                "shop_id": d.shop_id,
+            }
+            for d in deals
+        ],
+    }
+
+
+@router.get("/{deal_id}")
+@limiter.limit("60/minute")
+async def get_deal(
+    request: Request,
+    deal_id: int,
+    db: AsyncSession = Depends(get_db),
+):
+    result = await db.execute(select(Deal).where(Deal.id == deal_id))
+    deal = result.scalar_one_or_none()
+    if not deal:
+        raise HTTPException(status_code=404, detail=f"Deal {deal_id} not found")
+    return {
+        "status": "success",
+        "deal": {
+            "id": deal.id,
+            "title": deal.title,
+            "discount_value": deal.discount_value,
+            "discount_type": deal.discount_type,
+            "code": deal.code,
+            "shop_id": deal.shop_id,
+        },
+    }
+
+
+@router.post("/")
+@limiter.limit("10/minute")
+async def create_deal(
+    request: Request,
+    deal_data: DealCreate,
+    db: AsyncSession = Depends(get_db),
+):
+    deal = Deal(
+        title=deal_data.title,
+        discount_value=deal_data.discount_value,
+        discount_type=deal_data.discount_type,
+        code=deal_data.code,
+        shop_id=deal_data.shop_id,
+        product_id=deal_data.product_id,
+    )
+    db.add(deal)
+    await db.commit()
+    await db.refresh(deal)
+    return {"status": "success", "deal_id": deal.id, "title": deal.title}

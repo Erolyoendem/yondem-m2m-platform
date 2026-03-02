@@ -9,4 +9,18 @@ from app.models.transaction import Transaction
 from app.models.bid import Bid
 from app.models.wallet import Wallet, WalletType
 
-__all__ = ["Base", "Product", "Shop", "Deal", "IoTDevice", "Agent", "AgentType", "AgentStatus", "SmartContract", "Transaction", "Bid", "Wallet", "WalletType"]
+__all__ = [
+    "Base",
+    "Product",
+    "Shop",
+    "Deal",
+    "IoTDevice",
+    "Agent",
+    "AgentType",
+    "AgentStatus",
+    "SmartContract",
+    "Transaction",
+    "Bid",
+    "Wallet",
+    "WalletType",
+]

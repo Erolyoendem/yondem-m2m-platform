@@ -1,16 +1,21 @@
-from app.models.base import Base, Column, Integer, String, Float, DateTime, Boolean
+from sqlalchemy import String, Float, Boolean, Integer
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.sql import func
 from datetime import datetime
+from typing import Optional
+from app.models.base import Base
+
 
 class Shop(Base):
-    __tablename__ = 'shops'
+    __tablename__ = "shops"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(255), nullable=False)
-    logo_url = Column(String(500))
-    website_url = Column(String(500))
-    affiliate_network = Column(String(100))
-    commission_rate = Column(Float)
-    cashback_rate = Column(Float)
-    is_active = Column(Boolean, default=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=False)
+    logo_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    website_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    affiliate_network: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    commission_rate: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    cashback_rate: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
