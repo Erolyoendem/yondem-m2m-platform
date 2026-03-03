@@ -32,6 +32,16 @@
 - [ ] Orchestration Agent (A27) als externe API
 - [ ] White-Label Option (Enterprise Tier)
 
+### DMP Agents (A45-A50)
+- [ ] A45: First-Party Data Collector
+- [ ] A46: Audience Segmentation Agent
+- [ ] A47: Lookalike Modeler
+- [ ] A48: Consent Manager
+- [ ] A49: Real-Time Bidding Agent
+- [ ] A50: Data Marketplace Agent
+- [ ] Yondem als "AI-Native DMP für E-Commerce KMU" positionieren
+- [ ] Pricing: DMP Tier ab 199€/Monat zusätzlich
+
 ### Business
 - [ ] 10 zahlende Advertiser
 - [ ] 50 aktive Publisher

@@ -87,6 +87,28 @@ Kein Wettbewerber hat:
 - Gratis Tier verfügbar
 - Ziel: 80% Token-Kostenersparnis in Startup Phase
 
+## Google Privacy Sandbox Ende – Chance für Yondem
+- Google hat Privacy Sandbox Oktober 2025 eingestellt
+- Third-Party Cookies bleiben aber Safari/Firefox blockieren bereits
+- First-Party Data ist jetzt das wichtigste Asset für Shops
+- Shops die keine First-Party Strategie haben verlieren Targeting komplett
+- Yondem Lösung: Agent A34 sammelt First-Party Data DSGVO-konform via MCP
+- Email Kampagne Aufhänger: "Ihre Google Tracking Daten sind in Gefahr"
+
+## DMP Markt Analyse
+- Klassische DMPs (Adobe, Oracle BlueKai, Lotame): 5.000$/Monat, komplex
+- Marktlücke: KMU Shops brauchen DMP-Funktionen für 299€/Monat
+- Yondem positioniert sich als "AI-Native DMP für E-Commerce KMU"
+- Wettbewerbsvorteil: Affiliate + DMP in einem, autonom, DSGVO-konform
+
+## Neue Agents (A45-A50) – DMP Funktionen
+- A45: First-Party Data Collector (MCP, DSGVO-konform)
+- A46: Audience Segmentation Agent (cookieless Zielgruppen)
+- A47: Lookalike Modeler (ähnliche Kunden finden)
+- A48: Consent Manager Agent (DSGVO Consent automatisch)
+- A49: Real-Time Bidding Agent (autonomes Bidding)
+- A50: Data Marketplace Agent (anonymisierte Segmente verkaufen)
+
 ## Claude Code / MCP Distribution Kanal
 - Kunden nutzen bereits Claude Code (Handy, Mac, überall)
 - Yondem MCP Server = ein Eintrag in ihrer Claude Code Config
