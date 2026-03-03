@@ -5,7 +5,8 @@ import uuid
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from app.models.smart_contract import SmartContract
-from app.models.agent import Agent
+from app.models.agent import Agent, AgentType
+from app.models.bid import Bid
 from app.models.product import Product
 from app.models.shop import Shop
 from app.models.transaction import Transaction
@@ -41,14 +42,43 @@ def calculate_commission(product_price, commission_rate=0.10):
     publisher_commission = commission - platform_fee
     return publisher_commission, platform_fee
 
+def find_advertiser(db, product_category=None):
+    """Find best matching advertiser via active bids, fallback to any active advertiser."""
+    if product_category:
+        bid = (
+            db.query(Bid)
+            .filter(
+                Bid.is_active == 1,
+                func.lower(Bid.product_category).contains(func.lower(product_category)),
+            )
+            .order_by(Bid.commission_rate.desc())
+            .first()
+        )
+        if bid:
+            agent = db.query(Agent).filter(Agent.id == bid.advertiser_id).first()
+            if agent:
+                return agent
+    # fallback: any active advertiser
+    return (
+        db.query(Agent)
+        .filter(Agent.type == AgentType.ADVERTISER)
+        .first()
+    )
+
+
 def create_transaction(db, contract, product, publisher, shop):
+    advertiser = find_advertiser(db, product_category=product.category)
+    if not advertiser:
+        logger.warning("No advertiser found – skipping transaction")
+        return None
+
     publisher_commission, platform_fee = calculate_commission(product.price)
-    
+
     transaction = Transaction(
         id=str(uuid.uuid4()),
         publisher_id=publisher.id,
-        advertiser_id=shop.agent_id if shop else product.shop_id,
-        product_id=product.id,
+        advertiser_id=advertiser.id,
+        product_id=str(product.id),
         contract_id=contract.id,
         product_price=product.price,
         commission_amount=publisher_commission,
