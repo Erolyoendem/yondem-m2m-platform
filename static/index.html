@@ -257,6 +257,84 @@
       justify-content: center; gap: 0.3rem;
     }
 
+    /* ── Pricing ─────────────────────────────────────────── */
+    .pricing-section {
+      padding: 5rem 1.5rem;
+      max-width: 1100px; margin: 0 auto; text-align: center;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+      align-items: start;
+    }
+    .pricing-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: left;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+    }
+    .pricing-card:hover {
+      border-color: rgba(124,58,237,0.4);
+      transform: translateY(-3px);
+    }
+    .pricing-card.featured {
+      border-color: var(--purple);
+      background: linear-gradient(160deg, rgba(124,58,237,0.08), var(--surface) 60%);
+    }
+    .featured-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      color: #fff; font-size: 0.72rem; font-weight: 700;
+      padding: 0.25rem 0.85rem; border-radius: 999px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .plan-name {
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem;
+    }
+    .plan-price {
+      font-size: 2.75rem; font-weight: 800; letter-spacing: -0.04em;
+      line-height: 1; margin-bottom: 0.25rem;
+    }
+    .plan-price span { font-size: 1rem; font-weight: 500; color: var(--muted); }
+    .plan-desc {
+      color: var(--muted); font-size: 0.875rem; margin-bottom: 1.5rem;
+      min-height: 2.4em;
+    }
+    .plan-divider {
+      border: none; border-top: 1px solid var(--border); margin-bottom: 1.25rem;
+    }
+    .plan-features { list-style: none; margin-bottom: 1.75rem; }
+    .plan-features li {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.9rem; color: var(--text); padding: 0.3rem 0;
+    }
+    .plan-features li::before {
+      content: '✓'; color: #34d399; font-weight: 700;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .plan-features li.muted { color: var(--muted); }
+    .plan-features li.muted::before { content: '–'; color: var(--muted); }
+    .btn-plan {
+      display: block; width: 100%; padding: 0.8rem;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: transparent; color: var(--text);
+      font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      font-family: inherit; text-align: center; text-decoration: none;
+    }
+    .btn-plan:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
+    .btn-plan.primary {
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      border-color: transparent; color: #fff;
+    }
+    .btn-plan.primary:hover { opacity: 0.9; }
+
     /* ── Footer ──────────────────────────────────────────── */
     footer {
       border-top: 1px solid var(--border);
@@ -277,9 +355,15 @@
   <!-- Navigation -->
   <nav>
     <div class="nav-logo">YONDEM</div>
-    <button class="nav-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
-      Jetzt bewerben
-    </button>
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+      <a href="#pricing" style="color:var(--muted);text-decoration:none;font-size:0.9rem;font-weight:500;"
+        onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'});return false;">
+        Preise
+      </a>
+      <button class="nav-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
+        Jetzt bewerben
+      </button>
+    </div>
   </nav>
 
   <!-- Hero -->
@@ -386,6 +470,90 @@
           <p>Provision wird berechnet (8% Publisher, 2% Plattform). Trust Score aktualisiert. Wallet-Transaktion on-chain verbucht.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" style="padding: 5rem 1.5rem;">
+    <div style="max-width:1100px;margin:0 auto;text-align:center;">
+      <p class="section-label">Transparente Preise</p>
+      <h2 class="section-title">Starte kostenlos. Skaliere wenn du bereit bist.</h2>
+
+      <div class="pricing-grid">
+
+        <!-- Starter -->
+        <div class="pricing-card">
+          <p class="plan-name">Starter</p>
+          <div class="plan-price">0€ <span>/ Monat</span></div>
+          <p class="plan-desc">Auf deiner Infrastruktur. Keine Kreditkarte nötig.</p>
+          <hr class="plan-divider" />
+          <ul class="plan-features">
+            <li>5 AI Agents (Deepseek R1)</li>
+            <li>MCP auf eigenem Server</li>
+            <li>Publisher Registrierung</li>
+            <li>Smart Contract Engine</li>
+            <li>DSGVO-konform (Daten bei dir)</li>
+            <li class="muted">Cloud Hosting</li>
+            <li class="muted">Support</li>
+            <li class="muted">Blockchain Payments</li>
+          </ul>
+          <a href="#waitlist" class="btn-plan"
+            onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'});return false;">
+            Kostenlos starten
+          </a>
+        </div>
+
+        <!-- Growth (featured) -->
+        <div class="pricing-card featured">
+          <div class="featured-badge">Empfohlen</div>
+          <p class="plan-name">Growth</p>
+          <div class="plan-price">299€ <span>/ Monat</span></div>
+          <p class="plan-desc">Cloud-gehostet, vollständig verwaltet.</p>
+          <hr class="plan-divider" />
+          <ul class="plan-features">
+            <li>20 AI Agents (Claude Sonnet)</li>
+            <li>Cloud Hosting (Railway)</li>
+            <li>Advertiser + Publisher Portal</li>
+            <li>Smart Contract + Bidding</li>
+            <li>YDM Token Payments (Testnet)</li>
+            <li>Trust Score System</li>
+            <li>Email Support (24h)</li>
+            <li class="muted">White-Label</li>
+          </ul>
+          <a href="#waitlist" class="btn-plan primary"
+            onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'});return false;">
+            Jetzt bewerben &rarr;
+          </a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="pricing-card">
+          <p class="plan-name">Enterprise</p>
+          <div class="plan-price">999€ <span>/ Monat</span></div>
+          <p class="plan-desc">Alle 44 Agents. White-Label. SLA-garantiert.</p>
+          <hr class="plan-divider" />
+          <ul class="plan-features">
+            <li>Alle 44 AI Agents</li>
+            <li>Claude Opus für Orchestration</li>
+            <li>Custom MCP Integration</li>
+            <li>White-Label (eigene Domain)</li>
+            <li>YDM Token Mainnet</li>
+            <li>Dedicated Support + SLA</li>
+            <li>Shopware / Klaviyo Integration</li>
+            <li>DAO Governance Zugang</li>
+          </ul>
+          <a href="#waitlist" class="btn-plan"
+            onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'});return false;">
+            Enterprise anfragen
+          </a>
+        </div>
+
+      </div>
+
+      <p style="color:var(--muted);font-size:0.85rem;margin-top:2rem;">
+        Alle Preise zzgl. MwSt. &nbsp;·&nbsp; Monatlich kündbar &nbsp;·&nbsp;
+        Keine Setup-Gebühr
+      </p>
     </div>
   </section>
 
