@@ -132,6 +132,13 @@ Beispiel Kunde Config:
 Kunden können dann in Claude Code sagen:
 "Analysiere meinen Shopware Shop" → Yondem Agent antwortet
 
+## NVIDIA NIM Integration
+- Kostenlose Inferenz für simple Agents
+- llama-3.1-8b für Routine Tasks
+- Zwischen Deepseek und kostenlosem OpenRouter Fallback
+- NVIDIA Inception Program: GPU Credits für Training
+- Anmeldung: developer.nvidia.com/startups
+
 ## A51 Billing & Cost Control Agent
 - Vorauskasse-Prinzip: erst zahlen, dann nutzen
 - Prepaid Gate blockiert jeden Agent-Call ohne Guthaben
