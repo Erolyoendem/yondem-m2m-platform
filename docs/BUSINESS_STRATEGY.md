@@ -131,3 +131,11 @@ Beispiel Kunde Config:
 
 Kunden können dann in Claude Code sagen:
 "Analysiere meinen Shopware Shop" → Yondem Agent antwortet
+
+## A51 Billing & Cost Control Agent
+- Vorauskasse-Prinzip: erst zahlen, dann nutzen
+- Prepaid Gate blockiert jeden Agent-Call ohne Guthaben
+- Auto-Downgrade: kein harter Stopp, günstigeres Modell (Claude Opus → Deepseek → Llama Free)
+- Emergency Brake: stoppt nicht-kritische Agents bei 90% Budget
+- Platform Cost Monitor: Railway, OpenRouter, Supabase täglich
+- Ziel: niemals unerwartete Kosten für Erol oder Kunden
