@@ -9,6 +9,7 @@ from app.models.transaction import Transaction
 from app.models.bid import Bid
 from app.models.wallet import Wallet, WalletType
 from app.models.waitlist import WaitlistEntry
+from app.models.affiliate_offer import AffiliateOffer
 
 __all__ = [
     "Base",
@@ -25,4 +26,5 @@ __all__ = [
     "Wallet",
     "WalletType",
     "WaitlistEntry",
+    "AffiliateOffer",
 ]

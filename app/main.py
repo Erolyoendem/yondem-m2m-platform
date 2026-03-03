@@ -75,7 +75,7 @@ app.add_exception_handler(Exception, general_exception_handler)
 
 # ── Routers ────────────────────────────────────────────────────────────────
 from app.routers import agents, bidding, contracts, deals, iot, transactions, wallets
-from app.routers import i18n, mcp, waitlist
+from app.routers import i18n, mcp, waitlist, affiliate
 
 app.include_router(deals.router)
 app.include_router(i18n.router)
@@ -87,6 +87,7 @@ app.include_router(transactions.router)
 app.include_router(bidding.router)
 app.include_router(wallets.router)
 app.include_router(waitlist.router)
+app.include_router(affiliate.router)
 
 # Blockchain: optional – only loaded when web3 is installed
 try:
