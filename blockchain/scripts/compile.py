@@ -2,7 +2,7 @@ import json
 from solcx import compile_standard, install_solc
 from pathlib import Path
 
-install_solc("0.8.19")
+install_solc("0.8.20")
 
 def compile_contract(contract_name):
     contract_path = Path(f"/Users/haksystems/Yondem-M2M-Platform/03-Implementation/mcp-server/blockchain/contracts/{contract_name}.sol")
@@ -20,7 +20,7 @@ def compile_contract(contract_name):
                 }
             }
         }
-    }, solc_version="0.8.19")
+    }, solc_version="0.8.20")
     
     contract_data = compiled["contracts"][f"{contract_name}.sol"][contract_name]
     
