@@ -75,7 +75,7 @@ app.add_exception_handler(Exception, general_exception_handler)
 
 # ── Routers ────────────────────────────────────────────────────────────────
 from app.routers import agents, bidding, contracts, deals, iot, transactions, wallets
-from app.routers import i18n, mcp
+from app.routers import i18n, mcp, waitlist
 
 app.include_router(deals.router)
 app.include_router(i18n.router)
@@ -86,6 +86,7 @@ app.include_router(contracts.router)
 app.include_router(transactions.router)
 app.include_router(bidding.router)
 app.include_router(wallets.router)
+app.include_router(waitlist.router)
 
 # Blockchain: optional – only loaded when web3 is installed
 try:
@@ -95,24 +96,22 @@ try:
 except (ImportError, Exception) as _bc_err:
     logger.warning("Blockchain router not loaded: %s", _bc_err)
 
-# ── Static files ───────────────────────────────────────────────────────────
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-
 # ── Core endpoints ─────────────────────────────────────────────────────────
-
-@app.get("/")
-async def root():
-    return {
-        "message": "Yondem M2M Platform",
-        "version": "2.0.0",
-        "features": ["agents", "smart_contracts", "bidding", "transactions", "iot", "wallets"],
-    }
 
 
 @app.get("/health")
 async def health_check():
     return {"status": "ok", "version": "2.0.0", "db": "connected"}
+
+
+@app.get("/api", include_in_schema=False)
+async def api_info():
+    return {
+        "message": "Yondem M2M Platform",
+        "version": "2.0.0",
+        "features": ["agents", "smart_contracts", "bidding", "transactions", "iot", "wallets"],
+        "docs": "/docs",
+    }
 
 
 @app.get("/docs", include_in_schema=False)
@@ -130,3 +129,7 @@ async def swagger_ui():
             "</body></html>"
         )
     )
+
+
+# ── Static files (Landing Page) – mount LAST so API routes take priority ───
+app.mount("/", StaticFiles(directory="static", html=True), name="static")

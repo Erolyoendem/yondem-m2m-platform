@@ -8,6 +8,7 @@ from app.models.smart_contract import SmartContract
 from app.models.transaction import Transaction
 from app.models.bid import Bid
 from app.models.wallet import Wallet, WalletType
+from app.models.waitlist import WaitlistEntry
 
 __all__ = [
     "Base",
@@ -23,4 +24,5 @@ __all__ = [
     "Bid",
     "Wallet",
     "WalletType",
+    "WaitlistEntry",
 ]

@@ -16,6 +16,7 @@ from app.models.base import Base
 from app.models import (  # noqa: F401
     Product, Shop, Deal, IoTDevice,
     Agent, SmartContract, Transaction, Bid, Wallet,
+    WaitlistEntry,
 )
 
 config = context.config
