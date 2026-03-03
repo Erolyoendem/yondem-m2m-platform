@@ -29,9 +29,12 @@ class Agent(Base):
 
     id: Mapped[str] = mapped_column(String, primary_key=True)
     name: Mapped[str] = mapped_column(String, nullable=False)
-    type: Mapped[AgentType] = mapped_column(SAEnum(AgentType), nullable=False)
+    type: Mapped[AgentType] = mapped_column(
+        SAEnum(AgentType, values_callable=lambda obj: [e.value for e in obj]), nullable=False
+    )
     status: Mapped[AgentStatus] = mapped_column(
-        SAEnum(AgentStatus), default=AgentStatus.ACTIVE
+        SAEnum(AgentStatus, values_callable=lambda obj: [e.value for e in obj]),
+        default=AgentStatus.ACTIVE
     )
     performance_score: Mapped[float] = mapped_column(Float, default=0.0)
     trust_level: Mapped[int] = mapped_column(Integer, default=50)

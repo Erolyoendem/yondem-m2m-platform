@@ -12,6 +12,9 @@ _async_url = settings.DATABASE_URL
 _async_connect_args: dict = {}
 if "sqlite" in _async_url:
     _async_connect_args = {"check_same_thread": False}
+elif "asyncpg" in _async_url:
+    # PgBouncer (Supabase pooler) requires prepared statements disabled
+    _async_connect_args = {"statement_cache_size": 0}
 
 async_engine = create_async_engine(
     _async_url,
