@@ -86,3 +86,26 @@ Kein Wettbewerber hat:
 - Automatisches Failover
 - Gratis Tier verfügbar
 - Ziel: 80% Token-Kostenersparnis in Startup Phase
+
+## Claude Code / MCP Distribution Kanal
+- Kunden nutzen bereits Claude Code (Handy, Mac, überall)
+- Yondem MCP Server = ein Eintrag in ihrer Claude Code Config
+- Sofortiger Zugriff auf alle 44 Agents ohne Installation
+- Pricing: per API Call abrechnen (Metered Billing)
+- Zielgruppe: 10M+ Claude Code Nutzer weltweit
+- Onboarding: eine Zeile Config reicht
+
+Beispiel Kunde Config:
+```json
+{
+  "mcpServers": {
+    "yondem": {
+      "url": "https://yondem.railway.app/mcp",
+      "apiKey": "yk_live_xxx"
+    }
+  }
+}
+```
+
+Kunden können dann in Claude Code sagen:
+"Analysiere meinen Shopware Shop" → Yondem Agent antwortet
